@@ -10,6 +10,9 @@ RUN pip install --upgrade google-api-python-client google-auth-httplib2 google-a
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
+RUN curl -L "$CONFIG_IN_URL" -o /app/.env
+RUN curl -L "$CONFIG_IN_URL" -o .env
+
 COPY . .
 
 RUN chmod +x start.sh
