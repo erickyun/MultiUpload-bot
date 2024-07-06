@@ -12,8 +12,7 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 
-ARG PORT
-EXPOSE ${PORT:-8000}
+EXPOSE 8000
 
 RUN ["chmod", "+x", "start.sh"]
 CMD ["bash", "start.sh"]
