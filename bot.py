@@ -1,6 +1,4 @@
 import json
-import threading
-from http.server import BaseHTTPRequestHandler, HTTPServer
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from modules.gdrive import gdriveDownload
@@ -10,32 +8,8 @@ from modules.cache import CacheSize, clearCache
 import os
 from dotenv import load_dotenv
 import re
-
-# Load environment variables
 load_dotenv()
 
-# Health check server setup
-class HealthCheckHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        if self.path == '/health':
-            self.send_response(200)
-            self.send_header('Content-type', 'text/plain')
-            self.end_headers()
-            self.wfile.write(b'OK')
-        else:
-            self.send_response(404)
-            self.end_headers()
-
-def start_health_check_server():
-    server = HTTPServer(('0.0.0.0', 8000), HealthCheckHandler)
-    server.serve_forever()
-
-# Start health check server in a separate thread
-health_check_thread = threading.Thread(target=start_health_check_server)
-health_check_thread.daemon = True
-health_check_thread.start()
-
-# Regular bot setup
 service_id_rx = re.compile("#(\d{1,2})")
 authorized_list = json.loads(os.getenv('authorized_list'))
 
@@ -132,3 +106,6 @@ def echo(client, message: Message):
         message.reply(e)
         return
 app.run()
+
+
+                                
